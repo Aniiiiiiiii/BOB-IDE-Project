@@ -4,6 +4,9 @@ FROM node:20-alpine
 # Set working directory
 WORKDIR /workspace
 
+# Git history is part of the MCP project summary/risk context.
+RUN apk add --no-cache git
+
 # Copy package files
 COPY package*.json ./
 
