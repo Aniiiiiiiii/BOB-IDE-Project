@@ -328,6 +328,42 @@ devchronicle-mcp/
 - ✅ Markdown generation
 - ✅ Docker-based development and runtime
 - ✅ Project-level MCP configuration
+
+## MCP STDIO Architecture
+
+This MCP server uses the STDIO transport protocol, which has strict requirements:
+
+### Critical STDIO Constraints
+
+**stdout = ONLY JSON-RPC protocol messages**
+- The MCP protocol requires stdout to contain ONLY JSON-RPC formatted messages
+- Any non-protocol text on stdout will cause protocol errors in Bob
+
+**stderr = All logs, diagnostics, and status messages**
+- Startup messages: "DevChronicle MCP server running on stdio"
+- Error messages and diagnostics
+- Docker/container lifecycle messages
+
+### Why Launcher Scripts?
+
+The launcher scripts (`scripts/start-mcp.ps1` and `scripts/start-mcp.sh`) ensure clean STDIO separation:
+
+1. **Portable path resolution** - No hardcoded absolute paths
+2. **Docker runtime isolation** - Uses `docker run` instead of `docker compose` to avoid lifecycle output
+3. **stderr routing** - All diagnostic messages go to stderr using `[Console]::Error.WriteLine()` (PowerShell) or `>&2` (shell)
+4. **Clean stdout passthrough** - Only the MCP server's JSON-RPC messages reach stdout
+
+### Runtime Flow
+
+```
+Bob IDE
+  → PowerShell/Shell launcher script
+    → docker run (with STDIO passthrough)
+      → node build/index.js (MCP server)
+        → stdout: JSON-RPC only
+        → stderr: logs/diagnostics
+```
+
 - ✅ 5 deterministic risk analysis rules
 - ✅ ADR integration (2 example ADRs included)
 - ✅ Comprehensive validation pipeline
