@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "devchronicle": {
+      "command": "node",
+      "args": ["build/index.js"],
+      "cwd": ".",
+      "description": "DevChronicle MCP - Persistent project memory through devlogs, ADRs, and git history"
+    }
+  }
+}
+
+// Made with Bob
