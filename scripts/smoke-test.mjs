@@ -8,7 +8,7 @@
 import { spawn } from 'child_process';
 
 const TIMEOUT_MS = 5000;
-const EXPECTED_TOOLS = ['log_progress', 'summarize_project_state'];
+const EXPECTED_TOOLS = ['log_progress', 'summarize_project_state', 'analyze_change_risk'];
 
 console.log('🧪 Starting MCP server smoke test...\n');
 
@@ -123,5 +123,3 @@ server.on('error', (error) => {
   clearTimeout(timeout);
   process.exit(1);
 });
-
-// Made with Bob

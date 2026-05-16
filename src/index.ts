@@ -4,9 +4,10 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
-import { LogProgressSchema, SummarizeProjectStateSchema } from "./schemas.js";
+import { LogProgressSchema, SummarizeProjectStateSchema, AnalyzeChangeRiskSchema } from "./schemas.js";
 import { logProgress } from "./tools/logProgress.js";
 import { summarizeProjectState } from "./tools/summarizeProjectState.js";
+import { analyzeChangeRisk } from "./tools/analyzeChangeRisk.js";
 
 const server = new Server(
   {
@@ -83,6 +84,28 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           properties: {},
         },
       },
+      {
+        name: "analyze_change_risk",
+        description:
+          "Analyze the risk of a planned change by checking for conflicts with existing " +
+          "project decisions, devlogs, ADRs, and critical files. Returns risk level, " +
+          "detected conflicts, evidence, recommended questions, and safer alternatives.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            planned_change: {
+              type: "string",
+              description: "Description of the planned change",
+            },
+            changed_files: {
+              type: "array",
+              items: { type: "string" },
+              description: "Optional list of files that will be changed",
+            },
+          },
+          required: ["planned_change"],
+        },
+      },
     ],
   };
 });
@@ -156,6 +179,68 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           sections.push(`## ⚠️ Warnings`);
           summary.warnings.forEach((item) => {
             sections.push(`- ${item}`);
+          });
+          sections.push("");
+        }
+
+        return {
+          content: [
+            {
+              type: "text",
+              text: sections.join("\n"),
+            },
+          ],
+        };
+      }
+
+      case "analyze_change_risk": {
+        // Validate input with Zod
+        const input = AnalyzeChangeRiskSchema.parse(args);
+        const analysis = await analyzeChangeRisk(input);
+        
+        // Format the analysis as readable text
+        const sections = [
+          `# Change Risk Analysis\n`,
+          `**Risk Level:** ${analysis.risk_level.toUpperCase()}`,
+          `**Summary:** ${analysis.summary}\n`,
+        ];
+
+        if (analysis.detected_conflicts.length > 0) {
+          sections.push(`## ⚠️ Detected Conflicts`);
+          analysis.detected_conflicts.forEach((conflict) => {
+            sections.push(`- ${conflict}`);
+          });
+          sections.push("");
+        }
+
+        if (analysis.affected_files.length > 0) {
+          sections.push(`## 📁 Affected Files`);
+          analysis.affected_files.forEach((file) => {
+            sections.push(`- ${file}`);
+          });
+          sections.push("");
+        }
+
+        if (analysis.evidence.length > 0) {
+          sections.push(`## 📋 Evidence`);
+          analysis.evidence.forEach((evidence) => {
+            sections.push(`- ${evidence}`);
+          });
+          sections.push("");
+        }
+
+        if (analysis.recommended_questions.length > 0) {
+          sections.push(`## ❓ Recommended Questions`);
+          analysis.recommended_questions.forEach((question) => {
+            sections.push(`- ${question}`);
+          });
+          sections.push("");
+        }
+
+        if (analysis.safer_alternatives.length > 0) {
+          sections.push(`## 💡 Safer Alternatives`);
+          analysis.safer_alternatives.forEach((alternative) => {
+            sections.push(`- ${alternative}`);
           });
           sections.push("");
         }

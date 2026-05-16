@@ -27,3 +27,22 @@ export interface ProjectStateSummary {
   notable_files: string[];
   warnings: string[];
 }
+
+// Milestone 2: analyze_change_risk tool schema
+export const AnalyzeChangeRiskSchema = z.object({
+  planned_change: z.string().describe("Description of the planned change"),
+  changed_files: z.array(z.string()).optional().describe("Optional list of files that will be changed"),
+});
+
+export type AnalyzeChangeRiskInput = z.infer<typeof AnalyzeChangeRiskSchema>;
+
+// Output type for analyze_change_risk
+export interface ChangeRiskAnalysis {
+  risk_level: "low" | "medium" | "high";
+  summary: string;
+  detected_conflicts: string[];
+  affected_files: string[];
+  evidence: string[];
+  recommended_questions: string[];
+  safer_alternatives: string[];
+}
