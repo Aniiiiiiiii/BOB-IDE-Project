@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "devchronicle": {
+      "command": "sh",
+      "args": [
+        "/Users/apple/Documents/Code/BOB-IDE-Project/scripts/start-mcp-for-repo.sh"
+      ],
+      "description": "DevChronicle MCP - Persistent project memory for the current Bob workspace"
+    }
+  }
+}

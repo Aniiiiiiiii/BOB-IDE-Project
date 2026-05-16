@@ -1,0 +1,17 @@
+services:
+  devchronicle-mcp:
+    image: devchronicle-mcp:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /workspace
+    volumes:
+      # Mount project directory for local development
+      - .:/workspace
+      # Preserve node_modules in container
+      - /workspace/node_modules
+    stdin_open: true
+    # Don't use tty to avoid interfering with STDIO
+    tty: false
+    # Don't set a default command - let users specify it
+    # This allows both build and run commands

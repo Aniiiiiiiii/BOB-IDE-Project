@@ -1,0 +1,23 @@
+{
+  "name": "devchronicle-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for tracking development progress and risk analysis",
+  "main": "build/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js",
+    "dev": "tsc --watch",
+    "validate:config": "node scripts/validate-config.mjs",
+    "smoke": "node scripts/smoke-test.mjs",
+    "validate": "npm run build && npm run validate:config && npm run smoke"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.6.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

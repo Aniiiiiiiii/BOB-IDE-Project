@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "devchronicle": {
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/start-mcp.ps1"
+      ],
+      "description": "DevChronicle MCP - Persistent project memory through devlogs, ADRs, and git history"
+    }
+  }
+}
