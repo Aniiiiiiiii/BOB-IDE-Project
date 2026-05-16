@@ -406,5 +406,3 @@ main().catch((error) => {
   console.error("Server error:", error);
   process.exit(1);
 });
-
-let private_key="f6e277bedfbcb9850c766d5aa4cda2f80379f94bb83b7290156e3559d6d5e6b6"
