@@ -1,6 +1,6 @@
 #!/bin/sh
 # Portable MCP launcher for Linux/macOS
-# Resolves project root dynamically and launches Docker Compose MCP server
+# Resolves project root dynamically and launches Docker MCP server
 
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -8,7 +8,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # Resolve project root (one level up from scripts/)
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
-# Change to project root to ensure docker-compose.yml is found
+# Change to project root
 cd "$PROJECT_ROOT" || exit 1
 
 # Check if Docker is running
@@ -17,15 +17,20 @@ if ! docker ps >/dev/null 2>&1; then
     exit 1
 fi
 
-# Check if docker-compose.yml exists
-if [ ! -f "docker-compose.yml" ]; then
-    echo "Error: docker-compose.yml not found in project root: $PROJECT_ROOT" >&2
-    exit 1
+# Check if the Docker image exists, build if not
+if ! docker images -q devchronicle-mcp-devchronicle-mcp 2>/dev/null | grep -q .; then
+    echo "Docker image not found. Building..." >&2
+    docker compose build >/dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to build Docker image" >&2
+        exit 1
+    fi
 fi
 
-# Launch MCP server via Docker Compose
-# -T flag disables TTY for STDIO compatibility
-# --rm removes container after exit
-exec docker compose run --rm -T devchronicle-mcp node build/index.js
-
-# Made with Bob
+# Launch MCP server via direct docker run
+# This avoids docker compose's container lifecycle output pollution
+# -i: Keep STDIN open for STDIO protocol
+# --rm: Remove container after exit
+# -v: Mount project directory and preserve node_modules
+# -w: Set working directory
+exec docker run --rm -i -v "$PROJECT_ROOT:/workspace" -v /workspace/node_modules -w /workspace devchronicle-mcp-devchronicle-mcp node build/index.js

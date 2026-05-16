@@ -1,6 +1,6 @@
 #!/usr/bin/env pwsh
 # Portable MCP launcher for Windows
-# Resolves project root dynamically and launches Docker Compose MCP server
+# Resolves project root dynamically and launches Docker MCP server
 
 # Get the directory where this script is located
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -8,7 +8,7 @@ $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 # Resolve project root (one level up from scripts/)
 $ProjectRoot = Split-Path -Parent $ScriptDir
 
-# Change to project root to ensure docker-compose.yml is found
+# Change to project root
 Push-Location $ProjectRoot
 
 try {
@@ -19,16 +19,24 @@ try {
         exit 1
     }
 
-    # Check if docker-compose.yml exists
-    if (-not (Test-Path "docker-compose.yml")) {
-        Write-Error "docker-compose.yml not found in project root: $ProjectRoot"
-        exit 1
+    # Check if the Docker image exists, build if not
+    $imageExists = docker images -q devchronicle-mcp-devchronicle-mcp 2>$null
+    if (-not $imageExists) {
+        Write-Error "Docker image not found. Building..."
+        docker compose build 2>&1 | Out-Null
+        if ($LASTEXITCODE -ne 0) {
+            Write-Error "Failed to build Docker image"
+            exit 1
+        }
     }
 
-    # Launch MCP server via Docker Compose
-    # -T flag disables TTY for STDIO compatibility
-    # --rm removes container after exit
-    docker compose run --rm -T devchronicle-mcp node build/index.js
+    # Launch MCP server via direct docker run
+    # This avoids docker compose's container lifecycle output pollution
+    # -i: Keep STDIN open for STDIO protocol
+    # --rm: Remove container after exit
+    # -v: Mount project directory and preserve node_modules
+    # -w: Set working directory
+    docker run --rm -i -v "${ProjectRoot}:/workspace" -v /workspace/node_modules -w /workspace devchronicle-mcp-devchronicle-mcp node build/index.js
     
     $exitCode = $LASTEXITCODE
     Pop-Location
@@ -39,5 +47,3 @@ catch {
     Pop-Location
     exit 1
 }
-
-# Made with Bob
