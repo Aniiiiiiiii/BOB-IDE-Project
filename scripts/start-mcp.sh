@@ -9,9 +9,12 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Resolve project root (one level up from scripts/)
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+PROJECT_NAME="$(basename "$PROJECT_ROOT")"
 
 # Change to project root
 cd "$PROJECT_ROOT" || exit 1
+
+IMAGE_NAME="devchronicle-mcp:latest"
 
 # Check if Docker is running (all output to stderr)
 if ! docker ps >/dev/null 2>&1; then
@@ -20,7 +23,7 @@ if ! docker ps >/dev/null 2>&1; then
 fi
 
 # Check if the Docker image exists, build if not
-if ! docker images -q devchronicle-mcp-devchronicle-mcp 2>/dev/null | grep -q .; then
+if ! docker images -q "$IMAGE_NAME" 2>/dev/null | grep -q .; then
     echo "Docker image not found. Building..." >&2
     docker compose build >/dev/null 2>&1
     if [ $? -ne 0 ]; then
@@ -33,7 +36,14 @@ fi
 # This avoids docker compose's container lifecycle output pollution
 # -i: Keep STDIN open for STDIO protocol
 # --rm: Remove container after exit
-# -v: Mount project directory and preserve node_modules
-# -w: Set working directory
+# -v: Mount target repository for analysis
+# -w: Set working directory to the target repository
 # CRITICAL: Only this process's stdout should pass through
-exec docker run --rm -i -v "$PROJECT_ROOT:/workspace" -v /workspace/node_modules -w /workspace devchronicle-mcp-devchronicle-mcp node build/index.js
+exec docker run --rm -i \
+    -v "$PROJECT_ROOT:/target" \
+    -w /target \
+    -e GIT_CONFIG_COUNT=1 \
+    -e GIT_CONFIG_KEY_0=safe.directory \
+    -e GIT_CONFIG_VALUE_0=/target \
+    -e DEVCHRONICLE_PROJECT_NAME="$PROJECT_NAME" \
+    "$IMAGE_NAME" node /workspace/build/index.js

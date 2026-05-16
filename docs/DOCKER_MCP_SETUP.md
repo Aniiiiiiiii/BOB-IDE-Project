@@ -59,6 +59,65 @@ The launcher scripts provide several benefits:
 4. **Error handling** - Checks if Docker is running before attempting to start
 5. **Portable** - `.Bob/mcp.json` can be shared across the team
 
+## Using DevChronicle From Other Repositories
+
+The normal `scripts/start-mcp.sh` and `scripts/start-mcp.ps1` launchers are for this DevChronicle repository. To use the same MCP server from another repository, use the external-repo launchers:
+
+- `scripts/start-mcp-for-repo.sh`
+- `scripts/start-mcp-for-repo.ps1`
+
+These scripts run DevChronicle from the Docker image but mount Bob's current repository as the working directory. All tools then read and write files in that target repository:
+
+- `summarize_project_state` reads that repo's README, docs, ADRs, devlogs, and git history
+- `log_progress` writes to that repo's `docs/devlog/`
+- `create_adr` writes to that repo's `docs/adr/`
+- `analyze_change_risk` checks that repo's context
+
+### macOS/Linux External Repository Configuration
+
+In the other repository, create `.Bob/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "devchronicle": {
+      "command": "sh",
+      "args": [
+        "/Users/apple/Documents/Code/BOB-IDE-Project/scripts/start-mcp-for-repo.sh"
+      ],
+      "description": "DevChronicle MCP - Persistent project memory for this repository"
+    }
+  }
+}
+```
+
+Replace the path with the absolute path to your DevChronicle checkout.
+
+### Windows External Repository Configuration
+
+In the other repository, create `.Bob/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "devchronicle": {
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "C:\\path\\to\\BOB-IDE-Project\\scripts\\start-mcp-for-repo.ps1"
+      ],
+      "description": "DevChronicle MCP - Persistent project memory for this repository"
+    }
+  }
+}
+```
+
+### Override the Target Repository
+
+If Bob does not start MCP servers with the repository as the current working directory, set `DEVCHRONICLE_WORKSPACE` to the absolute path of the repo to analyze before launching Bob. The external launchers use this environment variable when present.
+
 ## Alternative: Direct Docker Commands
 
 If you prefer not to use launcher scripts, you can configure Bob to call Docker directly:
@@ -106,12 +165,12 @@ If you prefer not to use launcher scripts, you can configure Bob to call Docker 
         "--rm",
         "-i",
         "-v",
-        ".:/workspace",
+        ".:/target",
         "-w",
-        "/workspace",
-        "devchronicle-mcp",
+        "/target",
+        "devchronicle-mcp:latest",
         "node",
-        "build/index.js"
+        "/workspace/build/index.js"
       ],
       "cwd": ".",
       "description": "DevChronicle MCP - Persistent project memory through devlogs, ADRs, and git history"
@@ -125,9 +184,10 @@ If you prefer not to use launcher scripts, you can configure Bob to call Docker 
 **Flags explained:**
 - `--rm`: Remove container after it exits
 - `-i`: Keep STDIN open (required for STDIO)
-- `-v .:/workspace`: Mount current directory
-- `-w /workspace`: Set working directory
-- `devchronicle-mcp`: Image name
+- `-v .:/target`: Mount current directory as the repository to analyze
+- `-w /target`: Set working directory to that repository
+- `devchronicle-mcp:latest`: Image name
+- `node /workspace/build/index.js`: Run the MCP server code from inside the image
 
 ## Prerequisites
 

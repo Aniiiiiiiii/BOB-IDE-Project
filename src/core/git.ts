@@ -18,8 +18,7 @@ export async function getRecentCommits(count: number = 15): Promise<string[]> {
       .split("\n")
       .filter((line) => line.length > 0);
   } catch (error) {
-    // Git not available or not a git repository
-    console.error("Git log failed:", error);
+    // Git may be unavailable, absent, or have no commits yet.
     return [];
   }
 }

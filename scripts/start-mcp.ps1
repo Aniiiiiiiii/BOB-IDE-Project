@@ -12,9 +12,12 @@ $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 # Resolve project root (one level up from scripts/)
 $ProjectRoot = Split-Path -Parent $ScriptDir
+$ProjectName = Split-Path -Leaf $ProjectRoot
 
 # Change to project root
 Set-Location $ProjectRoot
+
+$ImageName = "devchronicle-mcp:latest"
 
 # Check if Docker is running (redirect check output to stderr)
 $null = docker ps 2>&1
@@ -24,7 +27,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # Check if the Docker image exists
-$imageExists = docker images -q devchronicle-mcp-devchronicle-mcp 2>&1
+$imageExists = docker images -q $ImageName 2>&1
 if (-not $imageExists) {
     [Console]::Error.WriteLine("Docker image not found. Building...")
     docker compose build *>&1 | Out-Null
@@ -38,9 +41,16 @@ if (-not $imageExists) {
 # This avoids docker compose's container lifecycle output pollution
 # -i: Keep STDIN open for STDIO protocol
 # --rm: Remove container after exit
-# -v: Mount project directory and preserve node_modules
-# -w: Set working directory
+# -v: Mount target repository for analysis
+# -w: Set working directory to the target repository
 # CRITICAL: Only this process's stdout should pass through
-docker run --rm -i -v "${ProjectRoot}:/workspace" -v /workspace/node_modules -w /workspace devchronicle-mcp-devchronicle-mcp node build/index.js
+docker run --rm -i `
+    -v "${ProjectRoot}:/target" `
+    -w /target `
+    -e GIT_CONFIG_COUNT=1 `
+    -e GIT_CONFIG_KEY_0=safe.directory `
+    -e GIT_CONFIG_VALUE_0=/target `
+    -e DEVCHRONICLE_PROJECT_NAME="$ProjectName" `
+    $ImageName node /workspace/build/index.js
 
 exit $LASTEXITCODE

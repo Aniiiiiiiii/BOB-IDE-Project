@@ -184,6 +184,82 @@ The recommended approach uses launcher scripts that automatically resolve the pr
 
 After configuration, restart Bob or reload the MCP configuration.
 
+### Use DevChronicle From Any Repository
+
+Build the Docker image once in this DevChronicle project:
+
+```sh
+docker compose build
+```
+
+Then, in any other repository, create `.Bob/mcp.json` that points to this project's external launcher with an absolute path.
+
+**macOS/Linux example:**
+
+```json
+{
+  "mcpServers": {
+    "devchronicle": {
+      "command": "sh",
+      "args": [
+        "/Users/apple/Documents/Code/BOB-IDE-Project/scripts/start-mcp-for-repo.sh"
+      ],
+      "description": "DevChronicle MCP - Persistent project memory for this repository"
+    }
+  }
+}
+```
+
+**Windows example:**
+
+```json
+{
+  "mcpServers": {
+    "devchronicle": {
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "C:\\path\\to\\BOB-IDE-Project\\scripts\\start-mcp-for-repo.ps1"
+      ],
+      "description": "DevChronicle MCP - Persistent project memory for this repository"
+    }
+  }
+}
+```
+
+The external launcher keeps DevChronicle's code inside the Docker image and mounts Bob's current repository as the MCP working directory. That means summaries, ADRs, devlogs, and git analysis apply to the repository you opened in Bob, not only to DevChronicle itself.
+
+### Global Bob MCP Settings
+
+For the best "open any repo and ask questions" workflow, configure Bob's global MCP settings instead of copying `.Bob/mcp.json` into every repository.
+
+On macOS, Bob may use one of these global settings files:
+
+```text
+~/.bob/settings/mcp_settings.json
+~/Library/Application Support/IBM Bob/User/globalStorage/kilocode.kilo-code/settings/mcp_settings.json
+```
+
+Use the external launcher there:
+
+```json
+{
+  "mcpServers": {
+    "devchronicle": {
+      "command": "sh",
+      "args": [
+        "/Users/apple/Documents/Code/BOB-IDE-Project/scripts/start-mcp-for-repo.sh"
+      ],
+      "description": "DevChronicle MCP - Persistent project memory for the current Bob workspace"
+    }
+  }
+}
+```
+
+This lets DevChronicle follow Bob's current workspace. The MCP server code still comes from this Docker image, while the repository being analyzed is whichever repo Bob opened.
+
 ## Docker Commands Reference
 
 ### Development Workflow

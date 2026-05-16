@@ -1,5 +1,6 @@
 services:
   devchronicle-mcp:
+    image: devchronicle-mcp:latest
     build:
       context: .
       dockerfile: Dockerfile

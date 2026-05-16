@@ -10,7 +10,7 @@ import { getRecentCommits, isGitRepository } from "../core/git.js";
 export async function summarizeProjectState(): Promise<ProjectStateSummary> {
   const cwd = process.cwd();
   const summary: ProjectStateSummary = {
-    project_name: path.basename(cwd),
+    project_name: process.env.DEVCHRONICLE_PROJECT_NAME || path.basename(cwd),
     apparent_goal: "",
     recent_progress: [],
     known_decisions: [],
