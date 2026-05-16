@@ -141,5 +141,3 @@ export function extractKeyInfo(scanned: ScannedProject): {
     warnings,
   };
 }
-
-// Made with Bob

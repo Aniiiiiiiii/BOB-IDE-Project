@@ -1,21 +1,69 @@
 # DevChronicle MCP
 
-A local Model Context Protocol (MCP) server that gives IBM Bob persistent project memory by reading Markdown devlogs, ADRs (Architecture Decision Records), README/docs, and git history.
+**Project Memory and Change-Risk Intelligence for AI-Assisted Development**
+
+A local Model Context Protocol (MCP) server that gives IBM Bob persistent project memory and intelligent change-risk analysis by reading Markdown devlogs, ADRs (Architecture Decision Records), README/docs, and git history.
 
 **Built for the IBM Bob Hackathon** - This project demonstrates Bob as the core development assistant with deterministic, local-only tools.
 
-## What DevChronicle Does
+## The Problem
 
-DevChronicle MCP provides two essential tools for Bob:
+AI coding assistants like IBM Bob are powerful, but they lose project context between sessions. They can't remember:
+- Why certain architectural decisions were made
+- What technologies were chosen and why
+- What changes were attempted and failed
+- What patterns the team has established
 
-1. **`log_progress`** - Creates or appends timestamped development progress entries to daily devlog files (`docs/devlog/YYYY-MM-DD.md`)
-2. **`summarize_project_state`** - Returns a structured summary of the current project by reading local files (README, devlogs, ADRs, docs, git history)
+This leads to:
+- ❌ Suggesting changes that contradict previous decisions
+- ❌ Repeating failed approaches
+- ❌ Breaking established patterns
+- ❌ Losing institutional knowledge
+
+## The Solution
+
+DevChronicle MCP gives Bob **persistent project memory** through three core capabilities:
+
+### 1. **`log_progress`** - Development History Tracking
+Creates timestamped development progress entries in daily devlog files (`docs/devlog/YYYY-MM-DD.md`).
+
+**Example:**
+> "Bob, log today's progress: implemented MCP server, changed src/index.ts and src/tools/*.ts, decided to use Zod for validation, no blockers, next step is testing."
+
+### 2. **`summarize_project_state`** - Project Context Awareness
+Returns a structured summary by reading local files (README, devlogs, ADRs, docs, git history).
+
+**Example:**
+> "Bob, what's the current state of this project?"
+
+Bob responds with:
+- Project name and goal
+- Recent progress from devlogs and git
+- Known decisions from ADRs
+- Open next steps
+- Notable files
+- Warnings about missing documentation
+
+### 3. **`analyze_change_risk`** - Intelligent Change Analysis ⭐ NEW
+Analyzes whether a planned change conflicts with existing project decisions, ADRs, or critical files.
+
+**Example:**
+> "Bob, analyze the risk of replacing Docker-based MCP startup with host npm runtime"
+
+Bob responds with:
+- **Risk Level:** HIGH/MEDIUM/LOW
+- **Detected Conflicts:** Contradicts ADR 0001 (Docker-First Runtime)
+- **Evidence:** Specific references to ADRs, devlogs, or files
+- **Recommended Questions:** What to consider before proceeding
+- **Safer Alternatives:** Suggested approaches with lower risk
 
 This gives Bob the ability to:
-- Track development progress over time
-- Remember decisions and context across sessions
-- Understand project state without external databases
-- Provide informed recommendations based on project history
+- ✅ Track development progress over time
+- ✅ Remember decisions and context across sessions
+- ✅ Understand project state without external databases
+- ✅ Detect conflicts with previous decisions **before** making changes
+- ✅ Provide informed recommendations based on project history
+- ✅ Prevent architectural drift and inconsistencies
 
 ## Prerequisites
 
@@ -52,13 +100,13 @@ docker compose run --rm devchronicle-mcp node scripts/smoke-test.mjs
 
 This verifies that:
 - The server starts successfully
-- Both tools (`log_progress` and `summarize_project_state`) are available
+- All three tools are available: `log_progress`, `summarize_project_state`, `analyze_change_risk`
 
 You should see:
 ```
 🧪 Starting MCP server smoke test...
 ✅ Server started successfully
-✅ All expected tools found: [ 'log_progress', 'summarize_project_state' ]
+✅ All expected tools found: [ 'log_progress', 'summarize_project_state', 'analyze_change_risk' ]
 🎉 Smoke test passed!
 ```
 
@@ -159,6 +207,27 @@ Bob will use `summarize_project_state` to read all available documentation and r
 
 **Another example:**
 > "Give me a summary of what we've been working on and what decisions have been made."
+
+### Using `analyze_change_risk` ⭐ NEW
+
+**Prompt:**
+> "Bob, analyze the risk of replacing Docker-based MCP startup with host npm runtime"
+
+Bob will use `analyze_change_risk` to check for conflicts and return:
+- **Risk Level:** HIGH (contradicts ADR 0001: Docker-First Runtime)
+- **Detected Conflicts:** Lists specific conflicts with ADRs or decisions
+- **Evidence:** References to relevant ADRs, devlogs, or files
+- **Recommended Questions:** What to consider before proceeding
+- **Safer Alternatives:** Suggested lower-risk approaches
+
+**Another example:**
+> "Bob, I'm planning to change these files: .Bob/mcp.json, docker-compose.yml. What's the risk?"
+
+**More examples:**
+> "Analyze the risk of migrating from TypeScript to JavaScript"
+> "What's the risk of removing the STDIO transport?"
+
+📖 **[See full demo with examples](docs/examples/change-risk-demo.md)**
 
 ## Project Structure
 

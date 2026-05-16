@@ -92,5 +92,3 @@ export async function analyzeChangeRisk(
     safer_alternatives: uniqueAlternatives.slice(0, 5), // Limit to 5 alternatives
   };
 }
-
-// Made with Bob

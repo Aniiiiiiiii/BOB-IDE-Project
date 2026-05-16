@@ -112,5 +112,3 @@ if (hasErrors) {
   console.log('🎉 Configuration validation passed!');
   process.exit(0);
 }
-
-// Made with Bob

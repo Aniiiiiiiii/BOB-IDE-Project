@@ -308,5 +308,3 @@ export const allRiskRules: RiskRule[] = [
   criticalFileRule,
   architectureDocRule,
 ];
-
-// Made with Bob
