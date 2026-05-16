@@ -1,17 +1,13 @@
 {
   "mcpServers": {
     "devchronicle": {
-      "command": "docker",
+      "command": "powershell",
       "args": [
-        "compose",
-        "run",
-        "--rm",
-        "-T",
-        "devchronicle-mcp",
-        "node",
-        "build/index.js"
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/start-mcp.ps1"
       ],
-      "cwd": ".",
       "description": "DevChronicle MCP - Persistent project memory through devlogs, ADRs, and git history"
     }
   }

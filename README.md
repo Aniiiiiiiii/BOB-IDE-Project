@@ -133,34 +133,54 @@ You should see:
 
 ## How Bob Connects
 
-Bob needs to be configured to start the MCP server through Docker. See the detailed setup guide:
+Bob needs to be configured to start the MCP server through Docker. The project includes **portable launcher scripts** that work across collaborators without hardcoded paths.
 
 📖 **[Docker MCP Setup Guide](docs/DOCKER_MCP_SETUP.md)**
 
-### Quick Configuration
+### Quick Configuration (Portable)
 
-Copy `.Bob/mcp.docker.example.json` to `.Bob/mcp.json` (or merge with your existing config):
+The recommended approach uses launcher scripts that automatically resolve the project root:
+
+**Windows** - Copy to `.Bob/mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "devchronicle": {
-      "command": "docker",
+      "command": "powershell",
       "args": [
-        "compose",
-        "run",
-        "--rm",
-        "-T",
-        "devchronicle-mcp",
-        "node",
-        "build/index.js"
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/start-mcp.ps1"
       ],
-      "cwd": ".",
       "description": "DevChronicle MCP - Persistent project memory"
     }
   }
 }
 ```
+
+**Linux/macOS** - Copy to `.Bob/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "devchronicle": {
+      "command": "sh",
+      "args": [
+        "scripts/start-mcp.sh"
+      ],
+      "description": "DevChronicle MCP - Persistent project memory"
+    }
+  }
+}
+```
+
+**Why launcher scripts?**
+- ✅ No hardcoded absolute paths
+- ✅ Works on any machine without editing config
+- ✅ Handles OneDrive/Unicode paths correctly
+- ✅ Team-shareable `.Bob/mcp.json`
 
 After configuration, restart Bob or reload the MCP configuration.
 

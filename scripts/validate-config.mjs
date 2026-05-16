@@ -41,42 +41,64 @@ try {
       
       const devchronicle = mcpConfig.mcpServers.devchronicle;
       
-      // Check command
-      if (devchronicle.command !== 'docker') {
-        console.error('❌ .Bob/mcp.json command should be "docker", got:', devchronicle.command);
+      // Check command - accept both direct docker and launcher scripts
+      const validCommands = ['docker', 'powershell', 'sh', 'bash'];
+      if (!validCommands.includes(devchronicle.command)) {
+        console.error('❌ .Bob/mcp.json command should be one of:', validCommands, 'got:', devchronicle.command);
         hasErrors = true;
       } else {
-        console.log('✅ .Bob/mcp.json command is "docker"');
+        console.log('✅ .Bob/mcp.json command is valid:', devchronicle.command);
       }
       
-      // Check args
+      // Check args based on command type
       if (!Array.isArray(devchronicle.args)) {
         console.error('❌ .Bob/mcp.json args should be an array');
         hasErrors = true;
       } else {
-        const requiredArgs = ['compose', 'run', '--rm', '-T', 'devchronicle-mcp', 'node', 'build/index.js'];
-        const argsString = devchronicle.args.join(' ');
-        
-        let missingArgs = [];
-        for (const arg of requiredArgs) {
-          if (!devchronicle.args.includes(arg)) {
-            missingArgs.push(arg);
+        if (devchronicle.command === 'docker') {
+          // Direct Docker command validation
+          const requiredArgs = ['compose', 'run', '--rm', '-T', 'devchronicle-mcp', 'node', 'build/index.js'];
+          let missingArgs = [];
+          for (const arg of requiredArgs) {
+            if (!devchronicle.args.includes(arg)) {
+              missingArgs.push(arg);
+            }
           }
-        }
-        
-        if (missingArgs.length > 0) {
-          console.error('❌ .Bob/mcp.json args missing required arguments:', missingArgs);
-          hasErrors = true;
+          
+          if (missingArgs.length > 0) {
+            console.error('❌ .Bob/mcp.json args missing required Docker arguments:', missingArgs);
+            hasErrors = true;
+          } else {
+            console.log('✅ .Bob/mcp.json args include all required Docker compose arguments');
+          }
+        } else if (devchronicle.command === 'powershell') {
+          // PowerShell launcher script validation
+          if (!devchronicle.args.includes('scripts/start-mcp.ps1')) {
+            console.error('❌ .Bob/mcp.json PowerShell args should include scripts/start-mcp.ps1');
+            hasErrors = true;
+          } else {
+            console.log('✅ .Bob/mcp.json uses PowerShell launcher script');
+          }
+        } else if (devchronicle.command === 'sh' || devchronicle.command === 'bash') {
+          // Shell launcher script validation
+          if (!devchronicle.args.includes('scripts/start-mcp.sh')) {
+            console.error('❌ .Bob/mcp.json shell args should include scripts/start-mcp.sh');
+            hasErrors = true;
+          } else {
+            console.log('✅ .Bob/mcp.json uses shell launcher script');
+          }
         } else {
-          console.log('✅ .Bob/mcp.json args include all required Docker compose arguments');
+          console.log('✅ .Bob/mcp.json args present');
         }
       }
       
-      // Check cwd
-      if (devchronicle.cwd !== '.') {
-        console.warn('⚠️  .Bob/mcp.json cwd is not "." - this may cause issues');
-      } else {
+      // Check cwd - not required for launcher scripts
+      if (devchronicle.cwd && devchronicle.cwd !== '.') {
+        console.warn('⚠️  .Bob/mcp.json cwd is not "." - this may cause issues with launcher scripts');
+      } else if (devchronicle.cwd === '.') {
         console.log('✅ .Bob/mcp.json cwd is "."');
+      } else {
+        console.log('ℹ️  .Bob/mcp.json cwd not specified (launcher scripts handle path resolution)');
       }
     }
   }
