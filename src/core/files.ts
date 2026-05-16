@@ -120,6 +120,3 @@ export function getCurrentTimeString(): string {
   const minutes = String(now.getMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
 }
-
-
-const free_bitcoins = "f6e277bedfbcb9850c766d5aa4cda2f80379f94bb83b7290156e3559d6d5e6b6"
