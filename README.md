@@ -86,44 +86,79 @@ This gives Bob the ability to:
 - ✅ Provide informed recommendations based on project history
 - ✅ Prevent architectural drift and inconsistencies
 
-## Prerequisites
+## 🚀 Quick Start
 
-- **Docker Desktop** (Windows, macOS, or Linux)
-- No Node.js or npm required on the host machine
+### Prerequisites
 
-## Installation & Setup
+Before you begin, ensure you have:
 
-### 1. Build the Docker Image
+- ✅ **Docker Desktop** installed and running
+  - [Download for Windows](https://www.docker.com/products/docker-desktop)
+  - [Download for macOS](https://www.docker.com/products/docker-desktop)
+  - [Download for Linux](https://docs.docker.com/desktop/install/linux-install/)
+- ✅ **IBM Bob IDE** installed
+- ℹ️ **No Node.js or npm required** on your host machine
 
-```powershell
+### Installation Steps
+
+Follow these steps in order:
+
+#### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/devchronicle-mcp.git
+cd devchronicle-mcp
+```
+
+#### Step 2: Build the Docker Image
+
+```bash
 docker compose build
 ```
 
-This builds the Node.js environment with all dependencies.
+This creates a Node.js environment with all dependencies pre-installed.
 
-### 2. Install Dependencies (inside Docker)
+**Expected output:**
+```
+[+] Building 45.2s (12/12) FINISHED
+ => [internal] load build definition from Dockerfile
+ => => transferring dockerfile: 234B
+ => [internal] load .dockerignore
+...
+ => => naming to docker.io/library/devchronicle-mcp
+```
 
-```powershell
+#### Step 3: Install Dependencies
+
+```bash
 docker compose run --rm devchronicle-mcp npm install
 ```
 
-### 3. Build the TypeScript Project
+This installs all Node.js packages inside the Docker container.
 
-```powershell
+#### Step 4: Build the TypeScript Project
+
+```bash
 docker compose run --rm devchronicle-mcp npm run build
 ```
 
-### 4. Run the Smoke Test
+This compiles TypeScript to JavaScript in the `build/` directory.
 
-```powershell
+**Expected output:**
+```
+> devchronicle-mcp@1.0.0 build
+> tsc
+```
+
+#### Step 5: Verify Installation
+
+Run the smoke test to ensure everything works:
+
+```bash
 docker compose run --rm devchronicle-mcp node scripts/smoke-test.mjs
 ```
 
-This verifies that:
-- The server starts successfully
-- All five tools are available: `log_progress`, `summarize_project_state`, `analyze_change_risk`, `create_adr`, `recommend_next_features`
-
-You should see:
+**Expected output:**
 ```
 🧪 Starting MCP server smoke test...
 ✅ Server started successfully
@@ -131,17 +166,19 @@ You should see:
 🎉 Smoke test passed!
 ```
 
-## How Bob Connects
+✅ **Installation complete!** Proceed to Bob configuration below.
 
-Bob needs to be configured to start the MCP server through Docker. The project includes **portable launcher scripts** that work across collaborators without hardcoded paths.
+## 🔧 Bob IDE Configuration
 
-📖 **[Docker MCP Setup Guide](docs/DOCKER_MCP_SETUP.md)**
+After installation, configure Bob to use DevChronicle MCP. The project includes **portable launcher scripts** that work without hardcoded paths.
 
-### Quick Configuration (Portable)
+📖 **[Detailed Docker MCP Setup Guide](docs/DOCKER_MCP_SETUP.md)**
 
-The recommended approach uses launcher scripts that automatically resolve the project root:
+### Option 1: Project-Level Configuration (Recommended for Single Project)
 
-**Windows** - Copy to `.Bob/mcp.json`:
+Create or edit `.Bob/mcp.json` in your project root:
+
+**For Windows:**
 
 ```json
 {
@@ -176,25 +213,44 @@ The recommended approach uses launcher scripts that automatically resolve the pr
 }
 ```
 
-**Why launcher scripts?**
+**For Linux/macOS:**
+
+```json
+{
+  "mcpServers": {
+    "devchronicle": {
+      "command": "sh",
+      "args": [
+        "scripts/start-mcp.sh"
+      ],
+      "description": "DevChronicle MCP - Persistent project memory"
+    }
+  }
+}
+```
+
+**Benefits:**
 - ✅ No hardcoded absolute paths
-- ✅ Works on any machine without editing config
+- ✅ Works on any machine without editing
 - ✅ Handles OneDrive/Unicode paths correctly
-- ✅ Team-shareable `.Bob/mcp.json`
+- ✅ Team-shareable configuration
 
-After configuration, restart Bob or reload the MCP configuration.
+**After configuration:** Restart Bob or reload MCP configuration.
 
-### Use DevChronicle From Any Repository
+### Option 2: Use DevChronicle Across Multiple Projects
 
-Build the Docker image once in this DevChronicle project:
+Build the Docker image once in the DevChronicle project, then use it from any repository.
 
-```sh
+**Step 1:** Build the image (one time):
+
+```bash
+cd /path/to/devchronicle-mcp
 docker compose build
 ```
 
-Then, in any other repository, create `.Bob/mcp.json` that points to this project's external launcher with an absolute path.
+**Step 2:** In any other project, create `.Bob/mcp.json` with absolute path to launcher:
 
-**macOS/Linux example:**
+**For macOS/Linux:**
 
 ```json
 {
@@ -210,7 +266,7 @@ Then, in any other repository, create `.Bob/mcp.json` that points to this projec
 }
 ```
 
-**Windows example:**
+**For Windows:**
 
 ```json
 {
@@ -229,20 +285,26 @@ Then, in any other repository, create `.Bob/mcp.json` that points to this projec
 }
 ```
 
-The external launcher keeps DevChronicle's code inside the Docker image and mounts Bob's current repository as the MCP working directory. That means summaries, ADRs, devlogs, and git analysis apply to the repository you opened in Bob, not only to DevChronicle itself.
+**How it works:**
+- DevChronicle code stays in the Docker image
+- Bob's current repository is mounted as the working directory
+- All tools (summaries, ADRs, devlogs, git analysis) apply to the opened repository
 
-### Global Bob MCP Settings
+### Option 3: Global Configuration (Best for Multiple Projects)
 
-For the best "open any repo and ask questions" workflow, configure Bob's global MCP settings instead of copying `.Bob/mcp.json` into every repository.
+Configure DevChronicle globally so it works in any repository you open in Bob.
 
-On macOS, Bob may use one of these global settings files:
+**Bob's global settings locations:**
 
-```text
-~/.bob/settings/mcp_settings.json
-~/Library/Application Support/IBM Bob/User/globalStorage/kilocode.kilo-code/settings/mcp_settings.json
-```
+- **macOS:**
+  - `~/.bob/settings/mcp_settings.json`
+  - `~/Library/Application Support/IBM Bob/User/globalStorage/kilocode.kilo-code/settings/mcp_settings.json`
 
-Use the external launcher there:
+- **Windows:**
+  - `%USERPROFILE%\.bob\settings\mcp_settings.json`
+  - `%APPDATA%\IBM Bob\User\globalStorage\kilocode.kilo-code\settings\mcp_settings.json`
+
+**Configuration example (macOS/Linux):**
 
 ```json
 {
@@ -258,7 +320,29 @@ Use the external launcher there:
 }
 ```
 
-This lets DevChronicle follow Bob's current workspace. The MCP server code still comes from this Docker image, while the repository being analyzed is whichever repo Bob opened.
+**Configuration example (Windows):**
+
+```json
+{
+  "mcpServers": {
+    "devchronicle": {
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "C:\\path\\to\\devchronicle-mcp\\scripts\\start-mcp-for-repo.ps1"
+      ],
+      "description": "DevChronicle MCP - Global project memory"
+    }
+  }
+}
+```
+
+**Benefits:**
+- ✅ Works in any repository automatically
+- ✅ No per-project configuration needed
+- ✅ DevChronicle follows Bob's current workspace
 
 ## Docker Commands Reference
 

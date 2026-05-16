@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevChronicle - MCP Server for Development Intelligence</title>
+    <meta name="description" content="Track progress, analyze risks, and maintain project context with AI-powered development tools via Model Context Protocol">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="stars"></div>
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="8" cy="8" r="2" fill="#00d4ff"/>
+                        <circle cx="24" cy="8" r="2" fill="#00d4ff"/>
+                        <circle cx="16" cy="16" r="2" fill="#a78bfa"/>
+                        <circle cx="8" cy="24" r="2" fill="#00d4ff"/>
+                        <circle cx="24" cy="24" r="2" fill="#a78bfa"/>
+                        <line x1="8" y1="8" x2="16" y2="16" stroke="#00d4ff" stroke-width="1.5"/>
+                        <line x1="24" y1="8" x2="16" y2="16" stroke="#00d4ff" stroke-width="1.5"/>
+                        <line x1="16" y1="16" x2="8" y2="24" stroke="#a78bfa" stroke-width="1.5"/>
+                        <line x1="16" y1="16" x2="24" y2="24" stroke="#a78bfa" stroke-width="1.5"/>
+                        <text x="16" y="18" font-family="Arial" font-size="10" fill="#00d4ff" text-anchor="middle" font-weight="bold">D</text>
+                    </svg>
+                    <span class="logo-text">DevChronicle <span class="logo-mcp">MCP</span></span>
+                </div>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#tools">Tools</a>
+                    <a href="setup.html">Setup Guide</a>
+                    <a href="https://github.com/yourusername/devchronicle" target="_blank" class="btn-secondary">GitHub</a>
+                </div>
+            </nav>
+            
+            <div class="hero-content">
+                <div class="badge">Model Context Protocol Server</div>
+                <h1 class="hero-title">
+                    DevChronicle <span class="gradient-text">MCP</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Project Memory for AI-Assisted Development
+                </p>
+                <div class="hero-buttons">
+                    <a href="#tools" class="btn-primary">Explore Tools</a>
+                    <a href="#setup" class="btn-secondary">Get Started</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">MCP Tools</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">AI Integrations</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Open Source</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Why DevChronicle?</h2>
+            <p class="section-subtitle">Seamlessly integrate development intelligence into your AI workflow</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>MCP Native</h3>
+                    <p>Built on the Model Context Protocol for seamless integration with Claude and other AI assistants</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Progress Tracking</h3>
+                    <p>Automatically log development progress, decisions, and blockers in structured devlogs</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚠️</div>
+                    <h3>Risk Analysis</h3>
+                    <p>Analyze planned changes against project history to detect conflicts and risks</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>ADR Management</h3>
+                    <p>Create and maintain Architecture Decision Records with automatic numbering</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Smart Recommendations</h3>
+                    <p>Get AI-powered feature suggestions based on your project's current state</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Context Aware</h3>
+                    <p>Analyzes README, devlogs, ADRs, and git history for comprehensive insights</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools" class="tools">
+        <div class="container">
+            <h2 class="section-title">MCP Tools Showcase</h2>
+            <p class="section-subtitle">Watch our tools in action with animated demonstrations</p>
+            
+            <div class="tools-container">
+                <!-- Tool 1: Log Progress -->
+                <div class="tool-demo">
+                    <div class="tool-header">
+                        <div class="tool-title">
+                            <span class="tool-icon">📝</span>
+                            <h3>log_progress</h3>
+                        </div>
+                        <span class="tool-badge">Development Tracking</span>
+                    </div>
+                    <p class="tool-description">Create structured development logs with completed tasks, changed files, decisions, and next steps</p>
+                    <div class="demo-window">
+                        <div class="demo-header">
+                            <div class="demo-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="demo-title">MCP Tool Request</div>
+                        </div>
+                        <div class="demo-content">
+                            <div class="code-block">
+                                <pre class="input-block"><code>{
+  "tool": "log_progress",
+  "arguments": {
+    "summary": "Implemented user authentication",
+    "completed": [
+      "Added JWT token generation",
+      "Created login endpoint"
+    ],
+    "changed_files": [
+      "src/auth/jwt.ts",
+      "src/routes/auth.ts"
+    ],
+    "decisions": [
+      "Using bcrypt for password hashing"
+    ],
+    "blockers": [],
+    "next_steps": [
+      "Add refresh token mechanism"
+    ]
+  }
+}</code></pre>
+                                <div class="arrow">→</div>
+                                <pre class="output-block"><code>{
+  "status": "success",
+  "file": "docs/devlog/2026-05-16.md",
+  "message": "Progress logged successfully"
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tool 2: Summarize Project State -->
+                <div class="tool-demo">
+                    <div class="tool-header">
+                        <div class="tool-title">
+                            <span class="tool-icon">📊</span>
+                            <h3>summarize_project_state</h3>
+                        </div>
+                        <span class="tool-badge">Project Intelligence</span>
+                    </div>
+                    <p class="tool-description">Get a comprehensive overview of your project by analyzing README, devlogs, ADRs, and git history</p>
+                    <div class="demo-window">
+                        <div class="demo-header">
+                            <div class="demo-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="demo-title">MCP Tool Request</div>
+                        </div>
+                        <div class="demo-content">
+                            <div class="code-block">
+                                <pre class="input-block"><code>{
+  "tool": "summarize_project_state",
+  "arguments": {}
+}</code></pre>
+                                <div class="arrow">→</div>
+                                <pre class="output-block"><code>{
+  "project_name": "DevChronicle",
+  "goal": "MCP server for dev intelligence",
+  "recent_progress": [
+    "Implemented 5 core MCP tools",
+    "Added risk analysis engine"
+  ],
+  "key_decisions": [
+    "Using TypeScript for type safety",
+    "Stdio-based MCP architecture"
+  ],
+  "next_steps": [
+    "Add browser tool integration"
+  ]
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tool 3: Analyze Change Risk -->
+                <div class="tool-demo">
+                    <div class="tool-header">
+                        <div class="tool-title">
+                            <span class="tool-icon">⚠️</span>
+                            <h3>analyze_change_risk</h3>
+                        </div>
+                        <span class="tool-badge">Risk Detection</span>
+                    </div>
+                    <p class="tool-description">Detect conflicts and risks before making changes by analyzing against project history</p>
+                    <div class="demo-window">
+                        <div class="demo-header">
+                            <div class="demo-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="demo-title">MCP Tool Request</div>
+                        </div>
+                        <div class="demo-content">
+                            <div class="code-block">
+                                <pre class="input-block"><code>{
+  "tool": "analyze_change_risk",
+  "arguments": {
+    "planned_change": "Switch from JWT to sessions",
+    "changed_files": [
+      "src/auth/jwt.ts"
+    ]
+  }
+}</code></pre>
+                                <div class="arrow">→</div>
+                                <pre class="output-block"><code>{
+  "risk_level": "HIGH",
+  "conflicts": [{
+    "type": "decision_conflict",
+    "source": "ADR-0003",
+    "description": "Previous decision to use JWT"
+  }],
+  "safer_alternatives": [
+    "Add session support alongside JWT"
+  ]
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tool 4: Create ADR -->
+                <div class="tool-demo">
+                    <div class="tool-header">
+                        <div class="tool-title">
+                            <span class="tool-icon">📋</span>
+                            <h3>create_adr</h3>
+                        </div>
+                        <span class="tool-badge">Documentation</span>
+                    </div>
+                    <p class="tool-description">Create Architecture Decision Records with automatic numbering and formatting</p>
+                    <div class="demo-window">
+                        <div class="demo-header">
+                            <div class="demo-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="demo-title">MCP Tool Request</div>
+                        </div>
+                        <div class="demo-content">
+                            <div class="code-block">
+                                <pre class="input-block"><code>{
+  "tool": "create_adr",
+  "arguments": {
+    "title": "Use PostgreSQL for persistence",
+    "status": "accepted",
+    "context": "Need reliable data storage",
+    "decision": "Use PostgreSQL as primary DB",
+    "consequences": [
+      "Excellent data integrity",
+      "Rich query capabilities"
+    ]
+  }
+}</code></pre>
+                                <div class="arrow">→</div>
+                                <pre class="output-block"><code>{
+  "status": "success",
+  "file": "docs/adr/0005-postgresql.md",
+  "number": 5,
+  "message": "ADR created successfully"
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tool 5: Recommend Next Features -->
+                <div class="tool-demo">
+                    <div class="tool-header">
+                        <div class="tool-title">
+                            <span class="tool-icon">🎯</span>
+                            <h3>recommend_next_features</h3>
+                        </div>
+                        <span class="tool-badge">AI Recommendations</span>
+                    </div>
+                    <p class="tool-description">Get intelligent feature recommendations based on project analysis</p>
+                    <div class="demo-window">
+                        <div class="demo-header">
+                            <div class="demo-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="demo-title">MCP Tool Request</div>
+                        </div>
+                        <div class="demo-content">
+                            <div class="code-block">
+                                <pre class="input-block"><code>{
+  "tool": "recommend_next_features",
+  "arguments": {}
+}</code></pre>
+                                <div class="arrow">→</div>
+                                <pre class="output-block"><code>{
+  "recommendations": {
+    "reliability": [
+      "Add error recovery mechanisms"
+    ],
+    "testing": [
+      "Add integration tests"
+    ],
+    "documentation": [
+      "Add API reference docs"
+    ],
+    "future_mcp_features": [
+      "Add browser tool integration"
+    ]
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Setup Section -->
+    <section id="setup" class="setup">
+        <div class="container">
+            <h2 class="section-title">Quick Setup</h2>
+            <p class="section-subtitle">Get started in minutes</p>
+            
+            <div class="setup-steps">
+                <div class="setup-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Install Dependencies</h3>
+                        <div class="code-snippet">
+                            <code>npm install</code>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="setup-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Build the Server</h3>
+                        <div class="code-snippet">
+                            <code>npm run build</code>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="setup-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Configure MCP Client</h3>
+                        <p>Add to your Claude Desktop or MCP client config:</p>
+                        <div class="code-snippet">
+                            <pre><code>{
+  "mcpServers": {
+    "devchronicle": {
+      "command": "node",
+      "args": ["path/to/build/index.js"]
+    }
+  }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="setup-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Start Using Tools</h3>
+                        <p>Access all 5 tools through your AI assistant!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Supercharge Your Development?</h2>
+                <p>Join developers using DevChronicle to maintain context and make better decisions</p>
+                <div class="cta-buttons">
+                    <a href="https://github.com/yourusername/devchronicle" target="_blank" class="btn-primary">View on GitHub</a>
+                    <a href="#tools" class="btn-secondary">Explore Tools</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <div class="logo">
+                        <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="8" cy="8" r="2" fill="#00d4ff"/>
+                            <circle cx="24" cy="8" r="2" fill="#00d4ff"/>
+                            <circle cx="16" cy="16" r="2" fill="#a78bfa"/>
+                            <circle cx="8" cy="24" r="2" fill="#00d4ff"/>
+                            <circle cx="24" cy="24" r="2" fill="#a78bfa"/>
+                            <line x1="8" y1="8" x2="16" y2="16" stroke="#00d4ff" stroke-width="1.5"/>
+                            <line x1="24" y1="8" x2="16" y2="16" stroke="#00d4ff" stroke-width="1.5"/>
+                            <line x1="16" y1="16" x2="8" y2="24" stroke="#a78bfa" stroke-width="1.5"/>
+                            <line x1="16" y1="16" x2="24" y2="24" stroke="#a78bfa" stroke-width="1.5"/>
+                            <text x="16" y="18" font-family="Arial" font-size="10" fill="#00d4ff" text-anchor="middle" font-weight="bold">D</text>
+                        </svg>
+                        <span class="logo-text">DevChronicle <span class="logo-mcp">MCP</span></span>
+                    </div>
+                    <p>Project Memory for AI-Assisted Development</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <a href="#features">Features</a>
+                        <a href="#tools">Tools</a>
+                        <a href="#setup">Setup</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <a href="https://github.com/yourusername/devchronicle" target="_blank">GitHub</a>
+                        <a href="https://modelcontextprotocol.io" target="_blank">MCP Docs</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 DevChronicle. Open Source MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

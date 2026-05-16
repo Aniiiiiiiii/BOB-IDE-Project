@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Guide - DevChronicle MCP</title>
+    <meta name="description" content="Complete setup guide for DevChronicle MCP Server">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="setup-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="logo">
+                    <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="8" cy="8" r="2" fill="#00d4ff"/>
+                        <circle cx="24" cy="8" r="2" fill="#00d4ff"/>
+                        <circle cx="16" cy="16" r="2" fill="#a78bfa"/>
+                        <circle cx="8" cy="24" r="2" fill="#00d4ff"/>
+                        <circle cx="24" cy="24" r="2" fill="#a78bfa"/>
+                        <line x1="8" y1="8" x2="16" y2="16" stroke="#00d4ff" stroke-width="1.5"/>
+                        <line x1="24" y1="8" x2="16" y2="16" stroke="#00d4ff" stroke-width="1.5"/>
+                        <line x1="16" y1="16" x2="8" y2="24" stroke="#a78bfa" stroke-width="1.5"/>
+                        <line x1="16" y1="16" x2="24" y2="24" stroke="#a78bfa" stroke-width="1.5"/>
+                        <text x="16" y="18" font-family="Arial" font-size="10" fill="#00d4ff" text-anchor="middle" font-weight="bold">D</text>
+                    </svg>
+                    <span class="logo-text">DevChronicle <span class="logo-mcp">MCP</span></span>
+                </a>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#features">Features</a>
+                    <a href="index.html#tools">Tools</a>
+                    <a href="setup.html" class="active">Setup Guide</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="setup-hero">
+        <div class="container">
+            <div class="setup-hero-content">
+                <h1 class="setup-title">
+                    <span class="gradient-text">Setup Guide</span>
+                </h1>
+                <p class="setup-subtitle">
+                    Get DevChronicle MCP up and running in minutes
+                </p>
+                <div class="setup-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="currentStep">Step 1</span> of <span id="totalSteps">7</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prerequisites Section -->
+    <section class="prerequisites">
+        <div class="container">
+            <h2 class="section-title">Prerequisites</h2>
+            <p class="section-subtitle">Before you begin, make sure you have these installed</p>
+            
+            <div class="prereq-grid">
+                <div class="prereq-card">
+                    <div class="prereq-icon">🐳</div>
+                    <h3>Docker Desktop</h3>
+                    <p>Required for running the MCP server</p>
+                    <div class="prereq-links">
+                        <a href="https://www.docker.com/products/docker-desktop" target="_blank" class="prereq-link">
+                            Download for Windows
+                        </a>
+                        <a href="https://www.docker.com/products/docker-desktop" target="_blank" class="prereq-link">
+                            Download for macOS
+                        </a>
+                        <a href="https://docs.docker.com/desktop/install/linux-install/" target="_blank" class="prereq-link">
+                            Download for Linux
+                        </a>
+                    </div>
+                    <div class="prereq-check">
+                        <input type="checkbox" id="docker-check">
+                        <label for="docker-check">Docker Desktop installed</label>
+                    </div>
+                </div>
+                
+                <div class="prereq-card">
+                    <div class="prereq-icon">🤖</div>
+                    <h3>IBM Bob IDE</h3>
+                    <p>Your AI-powered development assistant</p>
+                    <div class="prereq-check">
+                        <input type="checkbox" id="bob-check">
+                        <label for="bob-check">Bob IDE installed</label>
+                    </div>
+                </div>
+                
+                <div class="prereq-card">
+                    <div class="prereq-icon">✅</div>
+                    <h3>No Node.js Required</h3>
+                    <p>Everything runs inside Docker - your host stays clean!</p>
+                    <div class="prereq-badge">Optional</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Steps -->
+    <section class="installation-steps">
+        <div class="container">
+            <h2 class="section-title">Installation Steps</h2>
+            <p class="section-subtitle">Follow these steps in order</p>
+            
+            <div class="steps-container">
+                <!-- Step 1 -->
+                <div class="step-card" data-step="1">
+                    <div class="step-header">
+                        <div class="step-number-badge">
+                            <span class="step-number">1</span>
+                        </div>
+                        <div class="step-title-group">
+                            <h3>Clone the Repository</h3>
+                            <span class="step-time">⏱️ 1 minute</span>
+                        </div>
+                    </div>
+                    <div class="step-content">
+                        <p>Get the DevChronicle MCP source code on your machine</p>
+                        <div class="code-block-wrapper">
+                            <div class="code-block-header">
+                                <span class="code-lang">bash</span>
+                                <button class="copy-btn" data-copy="git clone https://github.com/yourusername/devchronicle-mcp.git
+cd devchronicle-mcp">
+                                    📋 Copy
+                                </button>
+                            </div>
+                            <pre class="code-block"><code>git clone https://github.com/yourusername/devchronicle-mcp.git
+cd devchronicle-mcp</code></pre>
+                        </div>
+                        <div class="step-check">
+                            <input type="checkbox" id="step1-check">
+                            <label for="step1-check">Step completed</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-card" data-step="2">
+                    <div class="step-header">
+                        <div class="step-number-badge">
+                            <span class="step-number">2</span>
+                        </div>
+                        <div class="step-title-group">
+                            <h3>Build Docker Image</h3>
+                            <span class="step-time">⏱️ 2-3 minutes</span>
+                        </div>
+                    </div>
+                    <div class="step-content">
+                        <p>Create the Docker container with Node.js and all dependencies</p>
+                        <div class="code-block-wrapper">
+                            <div class="code-block-header">
+                                <span class="code-lang">bash</span>
+                                <button class="copy-btn" data-copy="docker compose build">
+                                    📋 Copy
+                                </button>
+                            </div>
+                            <pre class="code-block"><code>docker compose build</code></pre>
+                        </div>
+                        <div class="expected-output">
+                            <div class="output-header">Expected Output:</div>
+                            <pre class="output-text"><code>[+] Building 45.2s (12/12) FINISHED
+ => [internal] load build definition
+ => => transferring dockerfile: 234B
+ => [internal] load .dockerignore
+ ...
+ => => naming to docker.io/library/devchronicle-mcp</code></pre>
+                        </div>
+                        <div class="step-check">
+                            <input type="checkbox" id="step2-check">
+                            <label for="step2-check">Step completed</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-card" data-step="3">
+                    <div class="step-header">
+                        <div class="step-number-badge">
+                            <span class="step-number">3</span>
+                        </div>
+                        <div class="step-title-group">
+                            <h3>Install Dependencies</h3>
+                            <span class="step-time">⏱️ 1 minute</span>
+                        </div>
+                    </div>
+                    <div class="step-content">
+                        <p>Install Node.js packages inside the Docker container</p>
+                        <div class="code-block-wrapper">
+                            <div class="code-block-header">
+                                <span class="code-lang">bash</span>
+                                <button class="copy-btn" data-copy="docker compose run --rm devchronicle-mcp npm install">
+                                    📋 Copy
+                                </button>
+                            </div>
+                            <pre class="code-block"><code>docker compose run --rm devchronicle-mcp npm install</code></pre>
+                        </div>
+                        <div class="step-check">
+                            <input type="checkbox" id="step3-check">
+                            <label for="step3-check">Step completed</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step-card" data-step="4">
+                    <div class="step-header">
+                        <div class="step-number-badge">
+                            <span class="step-number">4</span>
+                        </div>
+                        <div class="step-title-group">
+                            <h3>Build TypeScript</h3>
+                            <span class="step-time">⏱️ 30 seconds</span>
+                        </div>
+                    </div>
+                    <div class="step-content">
+                        <p>Compile TypeScript to JavaScript</p>
+                        <div class="code-block-wrapper">
+                            <div class="code-block-header">
+                                <span class="code-lang">bash</span>
+                                <button class="copy-btn" data-copy="docker compose run --rm devchronicle-mcp npm run build">
+                                    📋 Copy
+                                </button>
+                            </div>
+                            <pre class="code-block"><code>docker compose run --rm devchronicle-mcp npm run build</code></pre>
+                        </div>
+                        <div class="expected-output">
+                            <div class="output-header">Expected Output:</div>
+                            <pre class="output-text"><code>> devchronicle-mcp@1.0.0 build
+> tsc</code></pre>
+                        </div>
+                        <div class="step-check">
+                            <input type="checkbox" id="step4-check">
+                            <label for="step4-check">Step completed</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="step-card" data-step="5">
+                    <div class="step-header">
+                        <div class="step-number-badge">
+                            <span class="step-number">5</span>
+                        </div>
+                        <div class="step-title-group">
+                            <h3>Verify Installation</h3>
+                            <span class="step-time">⏱️ 10 seconds</span>
+                        </div>
+                    </div>
+                    <div class="step-content">
+                        <p>Run the smoke test to ensure everything works</p>
+                        <div class="code-block-wrapper">
+                            <div class="code-block-header">
+                                <span class="code-lang">bash</span>
+                                <button class="copy-btn" data-copy="docker compose run --rm devchronicle-mcp node scripts/smoke-test.mjs">
+                                    📋 Copy
+                                </button>
+                            </div>
+                            <pre class="code-block"><code>docker compose run --rm devchronicle-mcp node scripts/smoke-test.mjs</code></pre>
+                        </div>
+                        <div class="expected-output success">
+                            <div class="output-header">✅ Expected Output:</div>
+                            <pre class="output-text"><code>🧪 Starting MCP server smoke test...
+✅ Server started successfully
+✅ All expected tools found: [ 'log_progress', 'summarize_project_state', 'analyze_change_risk', 'create_adr', 'recommend_next_features' ]
+🎉 Smoke test passed!</code></pre>
+                        </div>
+                        <div class="step-check">
+                            <input type="checkbox" id="step5-check">
+                            <label for="step5-check">Step completed</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="step-card" data-step="6">
+                    <div class="step-header">
+                        <div class="step-number-badge">
+                            <span class="step-number">6</span>
+                        </div>
+                        <div class="step-title-group">
+                            <h3>Configure Bob IDE</h3>
+                            <span class="step-time">⏱️ 2 minutes</span>
+                        </div>
+                    </div>
+                    <div class="step-content">
+                        <p>Set up Bob to use DevChronicle MCP</p>
+                        
+                        <div class="config-tabs">
+                            <button class="tab-btn active" data-tab="windows">Windows</button>
+                            <button class="tab-btn" data-tab="macos">macOS/Linux</button>
+                        </div>
+                        
+                        <div class="tab-content active" id="windows-tab">
+                            <p>Create or edit <code>.Bob/mcp.json</code> in your project root:</p>
+                            <div class="code-block-wrapper">
+                                <div class="code-block-header">
+                                    <span class="code-lang">json</span>
+                                    <button class="copy-btn" data-copy='{
+  "mcpServers": {
+    "devchronicle": {
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/start-mcp.ps1"
+      ],
+      "description": "DevChronicle MCP - Persistent project memory"
+    }
+  }
+}'>
+                                        📋 Copy
+                                    </button>
+                                </div>
+                                <pre class="code-block"><code>{
+  "mcpServers": {
+    "devchronicle": {
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "scripts/start-mcp.ps1"
+      ],
+      "description": "DevChronicle MCP - Persistent project memory"
+    }
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-content" id="macos-tab">
+                            <p>Create or edit <code>.Bob/mcp.json</code> in your project root:</p>
+                            <div class="code-block-wrapper">
+                                <div class="code-block-header">
+                                    <span class="code-lang">json</span>
+                                    <button class="copy-btn" data-copy='{
+  "mcpServers": {
+    "devchronicle": {
+      "command": "sh",
+      "args": [
+        "scripts/start-mcp.sh"
+      ],
+      "description": "DevChronicle MCP - Persistent project memory"
+    }
+  }
+}'>
+                                        📋 Copy
+                                    </button>
+                                </div>
+                                <pre class="code-block"><code>{
+  "mcpServers": {
+    "devchronicle": {
+      "command": "sh",
+      "args": [
+        "scripts/start-mcp.sh"
+      ],
+      "description": "DevChronicle MCP - Persistent project memory"
+    }
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="step-check">
+                            <input type="checkbox" id="step6-check">
+                            <label for="step6-check">Step completed</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 7 -->
+                <div class="step-card" data-step="7">
+                    <div class="step-header">
+                        <div class="step-number-badge">
+                            <span class="step-number">7</span>
+                        </div>
+                        <div class="step-title-group">
+                            <h3>Restart Bob IDE</h3>
+                            <span class="step-time">⏱️ 30 seconds</span>
+                        </div>
+                    </div>
+                    <div class="step-content">
+                        <p>Restart Bob or reload the MCP configuration to activate DevChronicle</p>
+                        <div class="restart-options">
+                            <div class="restart-option">
+                                <div class="restart-icon">🔄</div>
+                                <h4>Restart Bob IDE</h4>
+                                <p>Close and reopen Bob completely</p>
+                            </div>
+                            <div class="restart-option">
+                                <div class="restart-icon">⚡</div>
+                                <h4>Reload MCP Config</h4>
+                                <p>Use Bob's command palette to reload MCP servers</p>
+                            </div>
+                        </div>
+                        <div class="step-check">
+                            <input type="checkbox" id="step7-check">
+                            <label for="step7-check">Step completed</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Section -->
+    <section class="success-section" id="successSection" style="display: none;">
+        <div class="container">
+            <div class="success-content">
+                <div class="success-icon">🎉</div>
+                <h2>Setup Complete!</h2>
+                <p>DevChronicle MCP is now ready to use with Bob IDE</p>
+                <div class="success-actions">
+                    <a href="index.html#tools" class="btn-primary">Explore Tools</a>
+                    <a href="index.html" class="btn-secondary">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Troubleshooting -->
+    <section class="troubleshooting">
+        <div class="container">
+            <h2 class="section-title">Troubleshooting</h2>
+            <div class="troubleshooting-grid">
+                <div class="trouble-card">
+                    <h3>🐳 Docker Issues</h3>
+                    <p><strong>Problem:</strong> Docker commands fail</p>
+                    <p><strong>Solution:</strong> Ensure Docker Desktop is running</p>
+                    <div class="code-snippet">
+                        <code>docker ps</code>
+                    </div>
+                </div>
+                
+                <div class="trouble-card">
+                    <h3>🔨 Build Errors</h3>
+                    <p><strong>Problem:</strong> TypeScript compilation fails</p>
+                    <p><strong>Solution:</strong> Clean and rebuild</p>
+                    <div class="code-snippet">
+                        <code>docker compose build --no-cache</code>
+                    </div>
+                </div>
+                
+                <div class="trouble-card">
+                    <h3>🤖 Bob Connection</h3>
+                    <p><strong>Problem:</strong> Bob can't find MCP server</p>
+                    <p><strong>Solution:</strong> Check config file path and restart Bob</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <div class="logo">
+                        <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="8" cy="8" r="2" fill="#00d4ff"/>
+                            <circle cx="24" cy="8" r="2" fill="#00d4ff"/>
+                            <circle cx="16" cy="16" r="2" fill="#a78bfa"/>
+                            <circle cx="8" cy="24" r="2" fill="#00d4ff"/>
+                            <circle cx="24" cy="24" r="2" fill="#a78bfa"/>
+                            <line x1="8" y1="8" x2="16" y2="16" stroke="#00d4ff" stroke-width="1.5"/>
+                            <line x1="24" y1="8" x2="16" y2="16" stroke="#00d4ff" stroke-width="1.5"/>
+                            <line x1="16" y1="16" x2="8" y2="24" stroke="#a78bfa" stroke-width="1.5"/>
+                            <line x1="16" y1="16" x2="24" y2="24" stroke="#a78bfa" stroke-width="1.5"/>
+                            <text x="16" y="18" font-family="Arial" font-size="10" fill="#00d4ff" text-anchor="middle" font-weight="bold">D</text>
+                        </svg>
+                        <span class="logo-text">DevChronicle <span class="logo-mcp">MCP</span></span>
+                    </div>
+                    <p>Project Memory for AI-Assisted Development</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <a href="index.html#features">Features</a>
+                        <a href="index.html#tools">Tools</a>
+                        <a href="setup.html">Setup</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <a href="https://github.com/yourusername/devchronicle" target="_blank">GitHub</a>
+                        <a href="https://modelcontextprotocol.io" target="_blank">MCP Docs</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 DevChronicle. Open Source MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="setup-script.js"></script>
+</body>
+</html>

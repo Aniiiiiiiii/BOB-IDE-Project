@@ -10,7 +10,9 @@
     "dev": "tsc --watch",
     "validate:config": "node scripts/validate-config.mjs",
     "smoke": "node scripts/smoke-test.mjs",
-    "validate": "npm run build && npm run validate:config && npm run smoke"
+    "validate": "npm run build && npm run validate:config && npm run smoke",
+    "serve": "node server.js",
+    "preview": "node server.js"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^0.6.0",
