@@ -4,10 +4,12 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
-import { LogProgressSchema, SummarizeProjectStateSchema, AnalyzeChangeRiskSchema } from "./schemas.js";
+import { LogProgressSchema, SummarizeProjectStateSchema, AnalyzeChangeRiskSchema, CreateAdrSchema, RecommendNextFeaturesSchema } from "./schemas.js";
 import { logProgress } from "./tools/logProgress.js";
 import { summarizeProjectState } from "./tools/summarizeProjectState.js";
 import { analyzeChangeRisk } from "./tools/analyzeChangeRisk.js";
+import { createAdr } from "./tools/createAdr.js";
+import { recommendNextFeatures } from "./tools/recommendNextFeatures.js";
 
 const server = new Server(
   {
@@ -104,6 +106,52 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
           },
           required: ["planned_change"],
+        },
+      },
+      {
+        name: "create_adr",
+        description:
+          "Create an Architecture Decision Record (ADR) in docs/adr/. " +
+          "Automatically assigns the next sequential number and formats the ADR with " +
+          "title, status, context, decision, and consequences.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            title: {
+              type: "string",
+              description: "Title of the ADR",
+            },
+            status: {
+              type: "string",
+              enum: ["proposed", "accepted", "superseded"],
+              description: "Status of the ADR",
+            },
+            context: {
+              type: "string",
+              description: "Context and background for the decision",
+            },
+            decision: {
+              type: "string",
+              description: "The decision that was made",
+            },
+            consequences: {
+              type: "array",
+              items: { type: "string" },
+              description: "Consequences of this decision",
+            },
+          },
+          required: ["title", "status", "context", "decision", "consequences"],
+        },
+      },
+      {
+        name: "recommend_next_features",
+        description:
+          "Analyze the project state and recommend next features grouped by category: " +
+          "reliability, demo polish, testing, documentation, and future MCP features. " +
+          "Based on README, devlogs, ADRs, package.json, and existing tools.",
+        inputSchema: {
+          type: "object",
+          properties: {},
         },
       },
     ],
@@ -241,6 +289,81 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           sections.push(`## 💡 Safer Alternatives`);
           analysis.safer_alternatives.forEach((alternative) => {
             sections.push(`- ${alternative}`);
+          });
+          sections.push("");
+        }
+
+        return {
+          content: [
+            {
+              type: "text",
+              text: sections.join("\n"),
+            },
+          ],
+        };
+      }
+
+      case "create_adr": {
+        // Validate input with Zod
+        const input = CreateAdrSchema.parse(args);
+        const result = await createAdr(input);
+        
+        return {
+          content: [
+            {
+              type: "text",
+              text: `✅ ${result.summary}\n\nPath: ${result.path}`,
+            },
+          ],
+        };
+      }
+
+      case "recommend_next_features": {
+        // Validate input (empty object is fine)
+        RecommendNextFeaturesSchema.parse(args);
+        const recommendations = await recommendNextFeatures();
+        
+        // Format the recommendations as readable text
+        const sections = [
+          `# Feature Recommendations\n`,
+        ];
+
+        if (recommendations.reliability.length > 0) {
+          sections.push(`## 🔧 Reliability`);
+          recommendations.reliability.forEach((item) => {
+            sections.push(`- ${item}`);
+          });
+          sections.push("");
+        }
+
+        if (recommendations.demo_polish.length > 0) {
+          sections.push(`## ✨ Demo Polish`);
+          recommendations.demo_polish.forEach((item) => {
+            sections.push(`- ${item}`);
+          });
+          sections.push("");
+        }
+
+        if (recommendations.testing.length > 0) {
+          sections.push(`## 🧪 Testing`);
+          recommendations.testing.forEach((item) => {
+            sections.push(`- ${item}`);
+          });
+          sections.push("");
+        }
+
+        if (recommendations.documentation.length > 0) {
+          sections.push(`## 📚 Documentation`);
+          recommendations.documentation.forEach((item) => {
+            sections.push(`- ${item}`);
+          });
+          sections.push("");
+        }
+
+        if (recommendations.future_mcp_features.length > 0) {
+          sections.push(`## 🚀 Future MCP Features`);
+          recommendations.future_mcp_features.forEach((item) => {
+            sections.push(`- ${item}`);
           });
           sections.push("");
         }

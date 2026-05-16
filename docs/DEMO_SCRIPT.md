@@ -69,10 +69,43 @@ docker compose run --rm devchronicle-mcp npm run validate
 
 ---
 
-## Demo 3: Log Progress (30 seconds)
+## Demo 3: Create ADR (30 seconds)
 
 **Prompt to Bob:**
-> "Bob, log today's progress: Completed demo script, changed files include docs/DEMO_SCRIPT.md, decided to keep Docker-first approach based on risk analysis, no blockers, next step is final submission."
+> "Bob, create an ADR titled 'Use Zod for Input Validation', status accepted, context is we need type-safe validation for MCP tool inputs, decision is to use Zod library, consequences are better type safety and runtime validation but adds dependency"
+
+**Bob uses:** `create_adr`
+
+**Expected Output:**
+- ✅ Created ADR 0003: Use Zod for Input Validation (accepted)
+- Path: `docs/adr/0003-use-zod-for-input-validation.md`
+
+**Say:** "Bob automatically creates properly formatted ADRs with sequential numbering. These become part of the project's decision history."
+
+---
+
+## Demo 4: Feature Recommendations (30 seconds)
+
+**Prompt to Bob:**
+> "Bob, what features should we work on next?"
+
+**Bob uses:** `recommend_next_features`
+
+**Expected Output:**
+- **Reliability:** Error recovery, retry logic
+- **Demo Polish:** Better formatting, examples
+- **Testing:** Unit tests, integration tests
+- **Documentation:** API docs, troubleshooting
+- **Future MCP Features:** New tools to build
+
+**Say:** "Bob analyzes the project state and recommends next features based on what's missing. It checks for tests, documentation, ADRs, and suggests improvements."
+
+---
+
+## Demo 5: Log Progress (30 seconds)
+
+**Prompt to Bob:**
+> "Bob, log today's progress: Completed all 5 MCP tools, changed files include src/tools/*.ts, decided to add ADR creation and feature recommendations, no blockers, next step is final submission."
 
 **Bob uses:** `log_progress`
 
@@ -123,14 +156,16 @@ All local, deterministic, and Docker-first. No external APIs, no databases, no c
 ### Technical Highlights
 - Docker-first (no host dependencies)
 - STDIO MCP transport
-- 3 core tools: log_progress, summarize_project_state, analyze_change_risk
+- 5 core tools: log_progress, summarize_project_state, analyze_change_risk, create_adr, recommend_next_features
 - 5 deterministic risk rules
 - Full validation pipeline
 
 ### Demo Flow
 1. Show Bob understanding project state
 2. Show Bob detecting high-risk changes
-3. Show Bob logging progress for future memory
+3. Show Bob creating ADRs
+4. Show Bob recommending next features
+5. Show Bob logging progress for future memory
 
 ---
 

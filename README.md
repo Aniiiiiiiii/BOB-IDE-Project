@@ -22,7 +22,7 @@ This leads to:
 
 ## The Solution
 
-DevChronicle MCP gives Bob **persistent project memory** through three core capabilities:
+DevChronicle MCP gives Bob **persistent project memory** through five core capabilities:
 
 ### 1. **`log_progress`** - Development History Tracking
 Creates timestamped development progress entries in daily devlog files (`docs/devlog/YYYY-MM-DD.md`).
@@ -44,7 +44,7 @@ Bob responds with:
 - Notable files
 - Warnings about missing documentation
 
-### 3. **`analyze_change_risk`** - Intelligent Change Analysis ⭐ NEW
+### 3. **`analyze_change_risk`** - Intelligent Change Analysis
 Analyzes whether a planned change conflicts with existing project decisions, ADRs, or critical files.
 
 **Example:**
@@ -56,6 +56,27 @@ Bob responds with:
 - **Evidence:** Specific references to ADRs, devlogs, or files
 - **Recommended Questions:** What to consider before proceeding
 - **Safer Alternatives:** Suggested approaches with lower risk
+
+### 4. **`create_adr`** - Architecture Decision Records ⭐ NEW
+Creates properly formatted ADR documents in `docs/adr/` with automatic numbering.
+
+**Example:**
+> "Bob, create an ADR titled 'Use Docker for MCP Runtime', status accepted, context is we need consistent environment, decision is Docker-first approach, consequences are no host npm needed but requires Docker Desktop"
+
+Bob creates `docs/adr/0001-use-docker-for-mcp-runtime.md` with proper formatting.
+
+### 5. **`recommend_next_features`** - Intelligent Feature Planning ⭐ NEW
+Analyzes project state and recommends next features grouped by category.
+
+**Example:**
+> "Bob, what features should we work on next?"
+
+Bob responds with recommendations in categories:
+- **Reliability:** Error handling, retry logic, validation
+- **Demo Polish:** Better output formatting, examples
+- **Testing:** Unit tests, integration tests, coverage
+- **Documentation:** API docs, troubleshooting guides
+- **Future MCP Features:** New tools to build
 
 This gives Bob the ability to:
 - ✅ Track development progress over time
@@ -100,13 +121,13 @@ docker compose run --rm devchronicle-mcp node scripts/smoke-test.mjs
 
 This verifies that:
 - The server starts successfully
-- All three tools are available: `log_progress`, `summarize_project_state`, `analyze_change_risk`
+- All five tools are available: `log_progress`, `summarize_project_state`, `analyze_change_risk`, `create_adr`, `recommend_next_features`
 
 You should see:
 ```
 🧪 Starting MCP server smoke test...
 ✅ Server started successfully
-✅ All expected tools found: [ 'log_progress', 'summarize_project_state', 'analyze_change_risk' ]
+✅ All expected tools found: [ 'log_progress', 'summarize_project_state', 'analyze_change_risk', 'create_adr', 'recommend_next_features' ]
 🎉 Smoke test passed!
 ```
 

@@ -46,3 +46,28 @@ export interface ChangeRiskAnalysis {
   recommended_questions: string[];
   safer_alternatives: string[];
 }
+
+// Milestone 3: create_adr tool schema
+export const CreateAdrSchema = z.object({
+  title: z.string().describe("Title of the ADR"),
+  status: z.enum(["proposed", "accepted", "superseded"]).describe("Status of the ADR"),
+  context: z.string().describe("Context and background for the decision"),
+  decision: z.string().describe("The decision that was made"),
+  consequences: z.array(z.string()).describe("Consequences of this decision"),
+});
+
+export type CreateAdrInput = z.infer<typeof CreateAdrSchema>;
+
+// Milestone 3: recommend_next_features tool (no input needed)
+export const RecommendNextFeaturesSchema = z.object({});
+
+export type RecommendNextFeaturesInput = z.infer<typeof RecommendNextFeaturesSchema>;
+
+// Output type for recommend_next_features
+export interface FeatureRecommendations {
+  reliability: string[];
+  demo_polish: string[];
+  testing: string[];
+  documentation: string[];
+  future_mcp_features: string[];
+}

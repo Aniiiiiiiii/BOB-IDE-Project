@@ -36,7 +36,7 @@ docker compose run --rm devchronicle-mcp npm run validate
 🎉 Configuration validation passed!
 
 ✅ Server started successfully
-✅ All expected tools found: [ 'log_progress', 'summarize_project_state', 'analyze_change_risk' ]
+✅ All expected tools found: [ 'log_progress', 'summarize_project_state', 'analyze_change_risk', 'create_adr', 'recommend_next_features' ]
 🎉 Smoke test passed!
 ```
 
@@ -73,6 +73,8 @@ docker compose run --rm -T devchronicle-mcp node build/index.js
   - Follow `docs/DEMO_SCRIPT.md`
   - Show: summarize_project_state
   - Show: analyze_change_risk (high risk example)
+  - Show: create_adr
+  - Show: recommend_next_features
   - Show: log_progress
   - Highlight: Docker-first, deterministic, local-only
 
@@ -94,6 +96,8 @@ docker compose run --rm -T devchronicle-mcp node build/index.js
 - ✅ **log_progress** - Persistent development history
 - ✅ **summarize_project_state** - Project context awareness
 - ✅ **analyze_change_risk** - Intelligent conflict detection
+- ✅ **create_adr** - Architecture decision documentation
+- ✅ **recommend_next_features** - Intelligent feature planning
 
 ### 2. Technical Excellence
 - ✅ Docker-first (no host dependencies)
@@ -114,7 +118,7 @@ docker compose run --rm -T devchronicle-mcp node build/index.js
 ## 📊 Project Statistics
 
 ### Files Created/Modified
-- **Core Implementation:** 12 TypeScript files
+- **Core Implementation:** 14 TypeScript files
 - **Configuration:** 5 files (Docker, MCP, package.json)
 - **Documentation:** 7 markdown files
 - **Scripts:** 2 validation scripts
@@ -124,6 +128,8 @@ docker compose run --rm -T devchronicle-mcp node build/index.js
 1. `log_progress` - Development history tracking
 2. `summarize_project_state` - Project context summary
 3. `analyze_change_risk` - Risk analysis with 5 rules
+4. `create_adr` - ADR creation with auto-numbering
+5. `recommend_next_features` - Feature recommendations
 
 ### Risk Analysis Rules
 1. Technology replacement detection
@@ -152,10 +158,12 @@ docker compose run --rm -T devchronicle-mcp node build/index.js
 
 ### Functionality
 - [x] MCP server starts correctly
-- [x] All 3 tools are exposed
+- [x] All 5 tools are exposed
 - [x] Tools return expected output
 - [x] Risk analysis detects conflicts
 - [x] Progress logging creates files
+- [x] ADR creation works with auto-numbering
+- [x] Feature recommendations analyze project state
 
 ---
 
@@ -175,7 +183,7 @@ docker compose run --rm -T devchronicle-mcp node build/index.js
 3. **Record demo video:**
    - Follow `docs/DEMO_SCRIPT.md`
    - Keep it under 3 minutes
-   - Show all 3 tools in action
+   - Show all 5 tools in action
 
 4. **Prepare presentation (if applicable):**
    - Problem statement
@@ -196,7 +204,7 @@ docker compose run --rm -T devchronicle-mcp node build/index.js
 **Title:** DevChronicle MCP - Project Memory for IBM Bob
 
 **Description:**
-DevChronicle MCP gives IBM Bob persistent project memory and intelligent change-risk analysis. It solves the problem of AI assistants losing context between sessions by reading devlogs, ADRs, and git history. The system detects conflicts before making changes using deterministic rules - no external APIs, no databases, just local file scanning. Built Docker-first with MCP STDIO transport, it provides three core tools: log_progress (track development), summarize_project_state (understand context), and analyze_change_risk (detect conflicts). All validation passes, fully documented, ready for production use.
+DevChronicle MCP gives IBM Bob persistent project memory and intelligent change-risk analysis. It solves the problem of AI assistants losing context between sessions by reading devlogs, ADRs, and git history. The system detects conflicts before making changes using deterministic rules - no external APIs, no databases, just local file scanning. Built Docker-first with MCP STDIO transport, it provides five core tools: log_progress (track development), summarize_project_state (understand context), analyze_change_risk (detect conflicts), create_adr (document decisions), and recommend_next_features (intelligent planning). All validation passes, fully documented, ready for production use.
 
 **Tech Stack:** TypeScript, Docker, MCP SDK, Zod
 

@@ -8,7 +8,7 @@
 import { spawn } from 'child_process';
 
 const TIMEOUT_MS = 5000;
-const EXPECTED_TOOLS = ['log_progress', 'summarize_project_state', 'analyze_change_risk'];
+const EXPECTED_TOOLS = ['log_progress', 'summarize_project_state', 'analyze_change_risk', 'create_adr', 'recommend_next_features'];
 
 console.log('🧪 Starting MCP server smoke test...\n');
 
