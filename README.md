@@ -237,9 +237,12 @@ devchronicle-mcp/
 │   ├── mcp.json                      # Bob MCP configuration (user-specific)
 │   └── mcp.docker.example.json       # Example Docker MCP config
 ├── docs/
+│   ├── DEMO_SCRIPT.md                # 3-minute demo script
 │   ├── DOCKER_MCP_SETUP.md           # Detailed Docker setup guide
+│   ├── SUBMISSION_CHECKLIST.md       # Hackathon submission guide
 │   ├── devlog/                       # Daily development logs (auto-created)
-│   └── adr/                          # Architecture Decision Records
+│   ├── adr/                          # Architecture Decision Records
+│   └── examples/                     # Demo examples and use cases
 ├── src/
 │   ├── index.ts                      # Main MCP server
 │   ├── schemas.ts                    # Zod schemas for tool inputs
@@ -271,12 +274,14 @@ devchronicle-mcp/
 - **Docker-first**: No host dependencies beyond Docker
 - **Hackathon-focused**: Core functionality without unnecessary complexity
 
-## Current Implementation
+## Current MVP Scope
 
-This implementation includes:
-- ✅ `log_progress` tool - Track development progress in daily devlogs
-- ✅ `summarize_project_state` tool - Understand project context from docs and git
-- ✅ `analyze_change_risk` tool - Detect conflicts with previous decisions
+**Current Tools:**
+- ✅ **`log_progress`** - Track development progress in daily devlogs
+- ✅ **`summarize_project_state`** - Understand project context from docs and git
+- ✅ **`analyze_change_risk`** - Detect conflicts with previous decisions
+
+**Implementation Features:**
 - ✅ Local file operations (no external dependencies)
 - ✅ Git history reading
 - ✅ Markdown generation
@@ -284,6 +289,7 @@ This implementation includes:
 - ✅ Project-level MCP configuration
 - ✅ 5 deterministic risk analysis rules
 - ✅ ADR integration (2 example ADRs included)
+- ✅ Comprehensive validation pipeline
 
 **Future Enhancements (Not Yet Implemented):**
 - `create_adr` tool for creating new ADRs
