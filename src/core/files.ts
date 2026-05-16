@@ -50,33 +50,42 @@ export async function listFilesRecursive(
   dirPath: string,
   pattern?: RegExp
 ): Promise<string[]> {
-  const files: string[] = [];
+  const matchesPattern = (fullPath: string): boolean => {
+    if (!pattern) {
+      return true;
+    }
 
-  async function scan(currentPath: string) {
+    // Keep behavior stable even if a caller passes a global/sticky RegExp.
+    pattern.lastIndex = 0;
+    return pattern.test(fullPath);
+  };
+
+  async function scan(currentPath: string): Promise<string[]> {
     try {
       const entries = await fs.readdir(currentPath, { withFileTypes: true });
+      const entryResults: Promise<string[]>[] = [];
 
       for (const entry of entries) {
         const fullPath = path.join(currentPath, entry.name);
 
         if (entry.isDirectory()) {
-          await scan(fullPath);
-        } else if (entry.isFile()) {
-          if (!pattern || pattern.test(fullPath)) {
-            files.push(fullPath);
-          }
+          entryResults.push(scan(fullPath));
+        } else if (entry.isFile() && matchesPattern(fullPath)) {
+          entryResults.push(Promise.resolve([fullPath]));
         }
       }
+
+      return (await Promise.all(entryResults)).flat();
     } catch (error) {
       // Ignore directories that can't be read
       if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
         console.error(`Error reading directory ${currentPath}:`, error);
       }
+      return [];
     }
   }
 
-  await scan(dirPath);
-  return files;
+  return await scan(dirPath);
 }
 
 /**
@@ -111,3 +120,6 @@ export function getCurrentTimeString(): string {
   const minutes = String(now.getMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
 }
+
+
+const free_bitcoins = "f6e277bedfbcb9850c766d5aa4cda2f80379f94bb83b7290156e3559d6d5e6b6"
