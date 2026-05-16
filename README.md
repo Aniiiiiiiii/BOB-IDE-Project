@@ -246,10 +246,16 @@ devchronicle-mcp/
 │   ├── core/
 │   │   ├── files.ts                  # File system utilities
 │   │   ├── git.ts                    # Git history reading
-│   │   └── markdown.ts               # Markdown generation
+│   │   ├── markdown.ts               # Markdown generation
+│   │   ├── scanner.ts                # Project documentation scanner
+│   │   └── riskRules.ts              # Risk analysis rules engine
 │   └── tools/
-│       ├── logProgress.ts            # log_progress tool implementation
-│       └── summarizeProjectState.ts  # summarize_project_state tool
+│       ├── logProgress.ts            # log_progress tool
+│       ├── summarizeProjectState.ts  # summarize_project_state tool
+│       └── analyzeChangeRisk.ts      # analyze_change_risk tool
+├── scripts/
+│   ├── smoke-test.mjs                # Automated smoke test
+│   └── validate-config.mjs           # MCP config validator
 ├── Dockerfile                        # Docker image definition
 ├── docker-compose.yml                # Docker Compose configuration
 ├── package.json
@@ -261,25 +267,27 @@ devchronicle-mcp/
 
 - **Local-only**: No external APIs, cloud services, or databases
 - **Deterministic**: Tools produce consistent, predictable outputs
-- **Simple**: Focused on Milestone 1 functionality only
 - **Bob-centric**: Designed to enhance Bob's capabilities as a development assistant
 - **Docker-first**: No host dependencies beyond Docker
+- **Hackathon-focused**: Core functionality without unnecessary complexity
 
-## Milestone 1 Scope
+## Current Implementation
 
-This implementation includes only the core functionality:
-- ✅ `log_progress` tool with full schema
-- ✅ `summarize_project_state` tool
+This implementation includes:
+- ✅ `log_progress` tool - Track development progress in daily devlogs
+- ✅ `summarize_project_state` tool - Understand project context from docs and git
+- ✅ `analyze_change_risk` tool - Detect conflicts with previous decisions
 - ✅ Local file operations (no external dependencies)
 - ✅ Git history reading
 - ✅ Markdown generation
 - ✅ Docker-based development and runtime
 - ✅ Project-level MCP configuration
+- ✅ 5 deterministic risk analysis rules
+- ✅ ADR integration (2 example ADRs included)
 
-**Not included in Milestone 1:**
-- Risk analysis tools
-- ADR creation tools
-- Feature recommendation tools
+**Future Enhancements (Not Yet Implemented):**
+- `create_adr` tool for creating new ADRs
+- `recommend_next_features` tool for suggesting next steps
 - UI/dashboards
 - Deployment automation
 
