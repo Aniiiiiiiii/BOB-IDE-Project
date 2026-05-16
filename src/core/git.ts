@@ -35,5 +35,3 @@ export async function isGitRepository(): Promise<boolean> {
     return false;
   }
 }
-
-// Made with Bob

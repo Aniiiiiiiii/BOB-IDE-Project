@@ -43,5 +43,3 @@ export async function logProgress(input: LogProgressInput): Promise<string> {
 
   return filePath;
 }
-
-// Made with Bob

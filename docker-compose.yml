@@ -14,5 +14,3 @@ services:
     tty: false
     # Don't set a default command - let users specify it
     # This allows both build and run commands
-
-# Made with Bob

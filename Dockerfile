@@ -19,5 +19,3 @@ RUN npm run build
 
 # Default command runs the MCP server
 CMD ["node", "build/index.js"]
-
-# Made with Bob

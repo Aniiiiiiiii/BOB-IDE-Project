@@ -102,5 +102,3 @@ export function extractMarkdownSections(content: string): {
 
   return { headings, listItems };
 }
-
-// Made with Bob

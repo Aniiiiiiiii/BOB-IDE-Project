@@ -1,0 +1,43 @@
+# Node modules (will be installed in container)
+node_modules/
+
+# Build output (will be built in container)
+build/
+
+# Git directory
+.git/
+.gitignore
+
+# Bob sessions and screenshots
+bob_sessions/
+screenshots/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment files
+.env
+.env.local
+
+# Documentation (not needed for build)
+*.md
+!package.json
+
+# Docker files (not needed inside container)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Made with Bob

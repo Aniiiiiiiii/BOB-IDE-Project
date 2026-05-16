@@ -136,5 +136,3 @@ export async function summarizeProjectState(): Promise<ProjectStateSummary> {
 
   return summary;
 }
-
-// Made with Bob

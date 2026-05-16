@@ -27,5 +27,3 @@ export interface ProjectStateSummary {
   notable_files: string[];
   warnings: string[];
 }
-
-// Made with Bob

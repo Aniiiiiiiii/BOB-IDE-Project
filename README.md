@@ -44,18 +44,23 @@ docker compose run --rm devchronicle-mcp npm install
 docker compose run --rm devchronicle-mcp npm run build
 ```
 
-### 4. Verify the Server Works
+### 4. Run the Smoke Test
 
 ```powershell
-docker compose run --rm -T devchronicle-mcp node build/index.js
+docker compose run --rm devchronicle-mcp node scripts/smoke-test.mjs
 ```
+
+This verifies that:
+- The server starts successfully
+- Both tools (`log_progress` and `summarize_project_state`) are available
 
 You should see:
 ```
-DevChronicle MCP server running on stdio
+🧪 Starting MCP server smoke test...
+✅ Server started successfully
+✅ All expected tools found: [ 'log_progress', 'summarize_project_state' ]
+🎉 Smoke test passed!
 ```
-
-Press `Ctrl+C` to stop.
 
 ## How Bob Connects
 
